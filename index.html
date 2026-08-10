@@ -115,7 +115,7 @@
   /* Publications have no teaser figure, so they span the full measure instead of
      leaving an empty thumbnail column. */
   .entry.nofig{grid-template-columns:1fr}
-  .entry img{
+  .entry img, .entry video{
     width:100%; border-radius:5px; display:block;
     aspect-ratio:4/3; object-fit:cover; object-position:top center;
     background:var(--thumbbg); border:1px solid var(--line);
@@ -123,15 +123,20 @@
   /* Figures are rendered on white or on black, so the image has to follow the
      theme. These must out-specify `.entry img{display:block}` above -- a bare
      `.fig-dark` loses the specificity contest and both variants would show. */
-  .entry img.fig-dark{display:none}
+  .entry img.fig-dark, .entry video.fig-dark{display:none}
   @media (prefers-color-scheme:dark){
-    .entry img.fig-light{display:none}
-    .entry img.fig-dark{display:block}
+    .entry img.fig-light, .entry video.fig-light{display:none}
+    .entry img.fig-dark,  .entry video.fig-dark{display:block}
   }
-  :root[data-theme="light"] .entry img.fig-light{display:block}
-  :root[data-theme="light"] .entry img.fig-dark{display:none}
-  :root[data-theme="dark"]  .entry img.fig-light{display:none}
-  :root[data-theme="dark"]  .entry img.fig-dark{display:block}
+  :root[data-theme="light"] .entry img.fig-light,
+  :root[data-theme="light"] .entry video.fig-light{display:block}
+  :root[data-theme="light"] .entry img.fig-dark,
+  :root[data-theme="light"] .entry video.fig-dark{display:none}
+  :root[data-theme="dark"]  .entry img.fig-light,
+  :root[data-theme="dark"]  .entry video.fig-light{display:none}
+  :root[data-theme="dark"]  .entry img.fig-dark,
+  :root[data-theme="dark"]  .entry video.fig-dark{display:block}
+
 
   .entry h3{
     margin:0 0 6px; font-size:1.05rem; line-height:1.35;
@@ -229,8 +234,13 @@
 
   <article class="entry">
     <a href="https://emmachickles.github.io/inversebench-timedomain/">
-      <img class="fig-light" src="assets/teaser_starspot_light.gif" alt="Animation: two stars rotate side by side, one with a dark spot in its northern hemisphere and one with the spot mirrored to the south. The light curves traced beneath them are identical.">
-      <img class="fig-dark" loading="lazy" src="assets/teaser_starspot.gif" alt="">
+      <video class="fig-light" src="assets/teaser_starspot_light.mp4"
+             poster="assets/teaser_starspot_light_poster.jpg"
+             autoplay loop muted playsinline preload="metadata"
+             aria-label="Animation: two stars rotate side by side, one with a dark spot in its northern hemisphere and one with the spot mirrored to the south. The light curves traced beneath them are identical."></video>
+      <video class="fig-dark" src="assets/teaser_starspot.mp4"
+             poster="assets/teaser_starspot_poster.jpg"
+             autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video>
     </a>
     <div>
       <span class="badge">Best Visualization &middot; IAIFI 2026</span>
@@ -371,6 +381,14 @@
 </div>
 
 <script>
+  // Honour a stated preference for reduced motion: a paused video shows its poster.
+  (function(){
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.entry video').forEach(function(v){
+      v.removeAttribute('autoplay'); v.removeAttribute('loop'); v.pause();
+    });
+  })();
+
   // Toggle light/dark and remember it. With no stored choice the page follows the
   // operating system, which is why the button reports "Auto".
   (function(){
