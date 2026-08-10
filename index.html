@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emma Chickles</title>
+<meta name="description" content="MIT Physics PhD candidate. Machine learning for time-domain astronomy: separating what the data measure from what the model assumes.">
+<meta property="og:title" content="Emma Chickles">
+<meta property="og:description" content="Machine learning for time-domain astronomy: separating what the data measure from what the model assumes.">
+<meta property="og:image" content="https://emmachickles.github.io/assets/card_starspot.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#11088;</text></svg>">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1012">
+<script>
+  // Applied before first paint so the page never flashes the wrong theme.
+  (function(){
+    try{
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
+<style>
+  /* ------------------------------------------------------------------
+     Single-column academic layout: content left-aligned in a ~820px
+     measure, sections divided by hairlines, emphasis carried by weight
+     and whitespace rather than borders or filled panels.
+
+     Light is the default; dark applies when the system asks for it. The
+     [data-theme] attribute set by the toggle wins in BOTH directions, so
+     a visitor's explicit choice always sticks.
+     ------------------------------------------------------------------ */
+  :root{
+    --bg:#ffffff; --ink:#1a1c1f; --body:#33363b; --muted:#6b7075;
+    --line:#e4e5e8; --acc:#0066cc; --hi:#8a5d00; --thumbbg:#fafafa;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0f1012; --ink:#f0f1f2; --body:#c9cbcf; --muted:#8b9096;
+      --line:#26282c; --acc:#6cb6f0; --hi:#e8a33d; --thumbbg:#000;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#ffffff; --ink:#1a1c1f; --body:#33363b; --muted:#6b7075;
+    --line:#e4e5e8; --acc:#0066cc; --hi:#8a5d00; --thumbbg:#fafafa;
+    color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1012; --ink:#f0f1f2; --body:#c9cbcf; --muted:#8b9096;
+    --line:#26282c; --acc:#6cb6f0; --hi:#e8a33d; --thumbbg:#000;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--body); font-family:var(--sans);
+    font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:0 22px}
+  a{color:var(--acc); text-decoration:none}
+  a:hover{text-decoration:underline}
+  hr{border:0; border-top:1px solid var(--line); margin:32px 0}
+
+  /* ---------------- hero: photo left, identity right ---------------- */
+  .hero{display:flex; gap:30px; align-items:flex-start; padding:58px 0 6px}
+  .avatar{
+    flex:0 0 132px; width:132px; height:132px; border-radius:50%;
+    object-fit:cover; background:var(--thumbbg);
+  }
+  .hero h1{
+    font-size:2.05rem; margin:0 0 8px; color:var(--ink);
+    letter-spacing:-.015em; line-height:1.15;
+  }
+  .hero .affil{margin:0 0 12px; color:var(--muted); font-size:.95rem}
+  .hero .pitch{margin:0 0 14px; color:var(--body); max-width:52ch}
+  .hero .pitch strong{color:var(--ink); font-weight:600}
+  .inline-links{font-size:.92rem; color:var(--muted); margin:0}
+  .sep{color:var(--line); margin:0 7px}
+
+  /* ---------------- anchor nav ---------------- */
+  nav.anchors{
+    display:flex; flex-wrap:wrap; align-items:center;
+    padding:14px 0 0; font-size:.93rem;
+  }
+  nav.anchors a{color:var(--muted)}
+  nav.anchors a:hover{color:var(--acc)}
+  .themebtn{
+    margin-left:auto; border:0; background:none; padding:4px 2px;
+    color:var(--muted); font:inherit; font-size:.93rem; cursor:pointer;
+  }
+  .themebtn:hover{color:var(--acc); text-decoration:underline}
+
+  /* ---------------- sections ---------------- */
+  section{padding:6px 0 2px}
+  h2{font-size:1.02rem; color:var(--ink); font-weight:650; margin:0 0 16px}
+
+  /* ---------------- news ---------------- */
+  .news{margin:0; padding:0; list-style:none; font-size:.96rem}
+  .news li{display:flex; gap:14px; padding:5px 0; align-items:baseline}
+  .news .when{
+    flex:0 0 76px; color:var(--muted); font-size:.88rem;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------------- research / publication rows ---------------- */
+  .entry{
+    display:grid; grid-template-columns:232px 1fr; gap:24px;
+    padding:22px 0; border-top:1px solid var(--line); align-items:start;
+  }
+  .entry:first-of-type{border-top:0; padding-top:2px}
+  /* Publications have no teaser figure, so they span the full measure instead of
+     leaving an empty thumbnail column. */
+  .entry.nofig{grid-template-columns:1fr}
+  .entry img{
+    width:100%; border-radius:5px; display:block;
+    aspect-ratio:4/3; object-fit:cover; object-position:top center;
+    background:var(--thumbbg); border:1px solid var(--line);
+  }
+  /* Figures are rendered on white or on black, so the image has to follow the
+     theme. These must out-specify `.entry img{display:block}` above -- a bare
+     `.fig-dark` loses the specificity contest and both variants would show. */
+  .entry img.fig-dark{display:none}
+  @media (prefers-color-scheme:dark){
+    .entry img.fig-light{display:none}
+    .entry img.fig-dark{display:block}
+  }
+  :root[data-theme="light"] .entry img.fig-light{display:block}
+  :root[data-theme="light"] .entry img.fig-dark{display:none}
+  :root[data-theme="dark"]  .entry img.fig-light{display:none}
+  :root[data-theme="dark"]  .entry img.fig-dark{display:block}
+
+  .entry h3{
+    margin:0 0 6px; font-size:1.05rem; line-height:1.35;
+    color:var(--ink); font-weight:650;
+  }
+  .entry h3 a{color:var(--ink)}
+  .entry h3 a:hover{color:var(--acc)}
+  .entry .who{margin:0 0 7px; font-size:.9rem; color:var(--muted)}
+  .entry p{margin:0 0 10px; font-size:.95rem}
+  .hi{color:var(--hi); font-weight:650; font-variant-numeric:tabular-nums}
+  .badge{
+    display:inline-block; font-size:.74rem; letter-spacing:.05em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; font-weight:600;
+  }
+  .btns{display:flex; flex-wrap:wrap; gap:6px}
+  .btns a{
+    font-size:.83rem; padding:3px 10px; border:1px solid var(--line);
+    border-radius:4px; color:var(--muted);
+  }
+  .btns a:hover{border-color:var(--acc); color:var(--acc); text-decoration:none}
+
+  .about p{max-width:68ch; margin:0 0 14px}
+  footer{padding:28px 0 60px; color:var(--muted); font-size:.87rem}
+
+  @media (max-width:700px){
+    body{font-size:16px}
+    .hero{flex-direction:column; gap:18px; padding:42px 0 4px}
+    .avatar{flex:0 0 104px; width:104px; height:104px}
+    .entry{grid-template-columns:1fr; gap:14px}
+    .news li{flex-direction:column; gap:0}
+    .news .when{flex:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ==================== hero ==================== -->
+<div class="hero">
+  <img class="avatar" src="assets/photo.jpg" width="132" height="132"
+       alt="Emma Chickles">
+  <div>
+    <h1>Emma Chickles</h1>
+    <p class="affil">PhD Candidate, Department of Physics, MIT &middot;
+      <a href="https://binaries.mit.edu/">Binary Star Astrophysics group</a>,
+      MIT Kavli Institute</p>
+    <p class="pitch">I build machine learning for real, messy scientific data &mdash; and
+      <strong>diagnostics that separate what the data actually measure from what the model
+      assumed.</strong></p>
+    <p class="inline-links">
+      <a href="mailto:echickle@mit.edu">Email</a><span class="sep">/</span>
+      <a href="https://github.com/emmachickles">GitHub</a><span class="sep">/</span>
+      <a href="https://www.linkedin.com/in/emmachickles">LinkedIn</a><span class="sep">/</span>
+      <a href="https://orcid.org/0000-0003-4780-4105">ORCID</a><span class="sep">/</span>
+      <a href="assets/cv.pdf">CV</a>
+    </p>
+  </div>
+</div>
+
+<nav class="anchors">
+  <a href="#news">News</a><span class="sep">/</span>
+  <a href="#research">Research</a><span class="sep">/</span>
+  <a href="#publications">Publications</a><span class="sep">/</span>
+  <a href="#about">About</a>
+  <button class="themebtn" id="themebtn" type="button"
+          aria-label="Switch between light and dark theme">Theme:
+    <span id="themelabel">Auto</span></button>
+</nav>
+
+<hr>
+
+<!-- ==================== news ==================== -->
+<section id="news">
+  <h2>News</h2>
+  <ul class="news">
+    <li><span class="when">Aug 2026</span>
+      <span><strong>Best Visualization</strong> at the IAIFI Summer School hackathon, for the
+        starspot inverse problem below.</span></li>
+    <li><span class="when">Jul 2026</span>
+      <span><em>Template Matching, Not Time Learning</em> accepted at the AI4Physics workshop
+        @ ICML 2026.</span></li>
+    <li><span class="when">2026</span>
+      <span>An eclipsing 8.56-minute orbital period mass-transferring binary published in
+        <em>ApJ</em>.</span></li>
+    <li><span class="when">2025</span>
+      <span>A gravitational-wave&ndash;detectable Type Ia supernova progenitor published in
+        <em>ApJ</em>.</span></li>
+  </ul>
+</section>
+
+<hr>
+
+<!-- ==================== research ==================== -->
+<section id="research">
+  <h2>Research</h2>
+
+  <article class="entry">
+    <a href="https://emmachickles.github.io/inversebench-timedomain/">
+      <img class="fig-light" src="assets/teaser_starspot_light.gif" alt="Animation: two stars rotate side by side, one with a dark spot in its northern hemisphere and one with the spot mirrored to the south. The light curves traced beneath them are identical.">
+      <img class="fig-dark" loading="lazy" src="assets/teaser_starspot.gif" alt="">
+    </a>
+    <div>
+      <span class="badge">Best Visualization &middot; IAIFI 2026</span>
+      <h3><a href="https://emmachickles.github.io/inversebench-timedomain/">When is a
+        reconstruction a measurement, and when is it a hypothesis?</a></h3>
+      <p class="who">Two scientific inverse problems contributed to
+        <a href="https://github.com/devzhk/InverseBench">InverseBench</a> (ICLR 2025),
+        on real survey cadences.</p>
+      <p>Mapping a star's surface from its brightness alone, the data pin down
+        <span class="hi">19 numbers out of 4,608</span> map pixels &mdash; so most of any
+        published map is the prior, not the observation. Because the unmeasurable subspace is
+        <em>computable</em>, &ldquo;the model is inventing structure&rdquo; stops being a caveat
+        and becomes a measurement: a matched prior recovers genuinely hidden structure, while
+        surfaces it has never seen come back <em>anti-correlated</em> with the truth.</p>
+      <div class="btns">
+        <a href="https://emmachickles.github.io/inversebench-timedomain/">Website</a>
+        <a href="https://emmachickles.github.io/inversebench-timedomain/explorers/starspot/">Paint a star</a>
+        <a href="https://emmachickles.github.io/inversebench-timedomain/primers/starspots/">Primer</a>
+        <a href="https://emmachickles.github.io/inversebench-timedomain/notebooks/02_starspot_nullspace.pdf">Notebook</a>
+        <a href="https://github.com/emmachickles/inversebench-timedomain">Code</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="entry">
+    <a href="https://emmachickles.github.io/period-diagnostic/paper/template-matching-not-time-learning.pdf">
+      <img src="assets/card_poster.jpg" alt="Conference poster: Template Matching, Not Time Learning, a diagnostic for self-supervised light-curve encoders.">
+    </a>
+    <div>
+      <span class="badge">ICML 2026 &middot; AI4Physics workshop</span>
+      <h3><a href="https://github.com/emmachickles/period-diagnostic">Template matching,
+        not time learning</a></h3>
+      <p class="who">A diagnostic for self-supervised light-curve encoders.</p>
+      <p>Self-supervised encoders appear to read a star's rotation period straight off its light
+        curve. They mostly don't &mdash; they recognise the <em>kind</em> of star and recall the
+        period typical of that kind. A drop-in diagnostic splits period-regression R&sup2; into
+        between- versus within-class signal and exposes the difference across
+        <span class="hi">eight</span> encoders, from a 4.4M-parameter BiGRU to the
+        110M-parameter MOMENT foundation model.</p>
+      <div class="btns">
+        <a href="https://emmachickles.github.io/period-diagnostic/paper/template-matching-not-time-learning.pdf">Paper</a>
+        <a href="https://emmachickles.github.io/period-diagnostic/poster/poster.pdf">Poster</a>
+        <a href="https://emmachickles.github.io/ztf-embedding-demo/period-aliasing/">Demo</a>
+        <a href="https://github.com/emmachickles/period-diagnostic">Code</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="entry">
+    <a href="https://emmachickles.github.io/ztf-pocket/">
+      <img class="fig-light" src="assets/card_period_light.jpg" alt="Periodogram and phase-folded light curves showing several candidate periods that fit the same data almost equally well.">
+      <img class="fig-dark" loading="lazy" src="assets/card_period.jpg" alt="">
+    </a>
+    <div>
+      <span class="badge">Interactive</span>
+      <h3><a href="https://emmachickles.github.io/ztf-pocket/">Explorers you can poke at</a></h3>
+      <p class="who">Dependency-free browser tools for inspecting what a model actually
+        learned.</p>
+      <p>An embedding explorer coloured by class, period, amplitude and periodic strictness; a
+        26k-star map of survey data with ultracompact binaries injected into it; an interactive
+        HR diagram; and playable periodograms where you can watch a period search pick the wrong
+        answer.</p>
+      <div class="btns">
+        <a href="https://emmachickles.github.io/ztf-pocket/">ZTF pocket</a>
+        <a href="https://emmachickles.github.io/ztf-embedding-demo/">Embedding demo</a>
+        <a href="https://github.com/emmachickles/blender_binaries">Blender binaries</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<hr>
+
+<!-- ==================== publications ==================== -->
+<section id="publications">
+  <h2>Publications</h2>
+
+  <article class="entry nofig">
+    <div>
+      <h3><a href="https://emmachickles.github.io/period-diagnostic/paper/template-matching-not-time-learning.pdf">Template
+        Matching, Not Time Learning: A Diagnostic for Self-Supervised Light-Curve Encoders</a></h3>
+      <p class="who">Chickles, E. &amp; Burdge, K. &mdash; AI4Physics Workshop, ICML (2026)</p>
+      <div class="btns">
+        <a href="https://emmachickles.github.io/period-diagnostic/paper/template-matching-not-time-learning.pdf">Paper</a>
+        <a href="https://emmachickles.github.io/period-diagnostic/poster/poster.pdf">Poster</a>
+        <a href="https://github.com/emmachickles/period-diagnostic">Code</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="entry nofig">
+    <div>
+      <h3>An eclipsing 8.56-minute orbital period mass-transferring binary</h3>
+      <p class="who">Chickles, E., et al. &mdash; The Astrophysical Journal (2026)</p>
+      <div class="btns">
+        <a href="https://github.com/emmachickles/atlasj101342.5-451656.8-data">Data &amp; pipeline</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="entry nofig">
+    <div>
+      <h3>A gravitational-wave&ndash;detectable Type Ia supernova progenitor</h3>
+      <p class="who">Chickles, E., et al. &mdash; The Astrophysical Journal (2025)</p>
+    </div>
+  </article>
+
+  <p style="margin-top:18px; font-size:.94rem">
+    <a href="https://orcid.org/0000-0003-4780-4105">Full publication list &rarr;</a></p>
+</section>
+
+<hr>
+
+<!-- ==================== about ==================== -->
+<section id="about" class="about">
+  <h2>About</h2>
+  <p>I study ultracompact white dwarf binaries &mdash; stars orbiting each other in minutes
+    rather than years, and among the loudest guaranteed sources for the LISA gravitational-wave
+    mission. Finding them means searching hundreds of millions of noisy, irregularly sampled
+    brightness measurements, which is where the machine learning comes in: 11&nbsp;TB pipelines,
+    distributed GPU training, and search code that turned a three-month analysis into a
+    six-hour one.</p>
+  <p>The thread through all of it is a habit of distrust. A model that looks right and a model
+    that is right produce the same demo, so I spend most of my time building the tests that tell
+    them apart &mdash; and the visualizations that let someone else check my reasoning instead of
+    taking my word for it.</p>
+</section>
+
+<hr>
+
+<footer>
+  Emma Torres Chickles &middot; Cambridge, MA &middot;
+  <a href="mailto:echickle@mit.edu">echickle@mit.edu</a><br>
+  Static page; source on
+  <a href="https://github.com/emmachickles/emmachickles.github.io">GitHub</a>.
+</footer>
+
+</div>
+
+<script>
+  // Toggle light/dark and remember it. With no stored choice the page follows the
+  // operating system, which is why the button reports "Auto".
+  (function(){
+    var root = document.documentElement,
+        btn  = document.getElementById('themebtn'),
+        lab  = document.getElementById('themelabel'),
+        mq   = window.matchMedia('(prefers-color-scheme: dark)');
+    function stored(){ try{ return localStorage.getItem('theme'); }catch(e){ return null; } }
+    function effective(){ return stored() || (mq.matches ? 'dark' : 'light'); }
+    function render(){
+      var s = stored();
+      lab.textContent = s ? (s === 'dark' ? 'Dark' : 'Light') : 'Auto';
+      btn.setAttribute('aria-pressed', effective() === 'dark' ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function(){
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try{ localStorage.setItem('theme', next); }catch(e){}
+      render();
+    });
+    mq.addEventListener('change', function(){ if(!stored()) render(); });
+    render();
+  })();
+</script>
+</body>
+</html>
