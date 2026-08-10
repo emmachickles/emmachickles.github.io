@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Emma Chickles</title>
-<meta name="description" content="MIT Physics PhD candidate. Machine learning for large astronomical surveys, and measuring how much of a model's output the data support.">
+<meta name="description" content="MIT Physics PhD candidate. GPU-scale machine learning searches of stellar light curves for ultracompact binary stars, and diagnostics for what those models actually learn.">
 <meta property="og:title" content="Emma Chickles">
-<meta property="og:description" content="Machine learning for large astronomical surveys, and measuring how much of a model's output the data support.">
+<meta property="og:description" content="MIT Physics PhD candidate. GPU-scale machine learning searches of stellar light curves for ultracompact binary stars, and diagnostics for what those models actually learn.">
 <meta property="og:image" content="https://emmachickles.github.io/assets/card_starspot.jpg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#11088;</text></svg>">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
@@ -183,8 +183,10 @@
     <p class="affil">PhD Candidate, Department of Physics, MIT &middot;
       <a href="https://binaries.mit.edu/">Binary Star Astrophysics group</a>,
       MIT Kavli Institute</p>
-    <p class="pitch">I work on machine learning for large astronomical surveys, and on
-      measuring how much of a model's output the data actually support.</p>
+    <p class="pitch">I use GPUs and machine learning to search hundreds of millions of stellar
+      light curves for <strong>ultracompact binaries</strong> &mdash; white dwarf pairs that
+      orbit in minutes, and among the loudest guaranteed sources for LISA. Along the way I build
+      the tests that catch a model learning the survey instead of the sky.</p>
     <p class="inline-links">
       <a href="mailto:echickle@mit.edu">Email</a><span class="sep">/</span>
       <a href="https://github.com/emmachickles">GitHub</a><span class="sep">/</span>
@@ -358,12 +360,15 @@
 <!-- ==================== about ==================== -->
 <section id="about" class="about">
   <h2>About</h2>
-  <p>I study ultracompact white dwarf binaries &mdash; stars orbiting each other in minutes
-    rather than years, and among the loudest guaranteed sources for the LISA gravitational-wave
-    mission. Finding them means searching hundreds of millions of noisy, irregularly sampled
-    brightness measurements, which is where the machine learning comes in: 11&nbsp;TB pipelines,
-    distributed GPU training, and search code that turned a three-month analysis into a
-    six-hour one.</p>
+  <p>These systems matter because they are the guaranteed part of the millihertz
+    gravitational-wave sky: LISA will detect on the order of 10<sup>4</sup> of them in the Galaxy,
+    but for most the frequency derivative will be unmeasurable, so electromagnetically
+    characterised anchors are what tie the gravitational-wave observables to real physical
+    parameters. Two of mine are published &mdash; an eclipsing 8.56-minute mass-transferring
+    binary, and a Type Ia supernova progenitor detectable in gravitational waves.</p>
+  <p>Finding them means searching hundreds of millions of noisy, irregularly sampled brightness
+    measurements: 11&nbsp;TB pipelines, distributed GPU training, and a search that went from
+    three months of compute to six hours across 16 GPUs.</p>
   <p>A model that looks right and a model that is right produce the same demo, so a good part
     of my work is building the tests that tell them apart, and the visualizations that let
     someone check the reasoning rather than take my word for it.</p>
